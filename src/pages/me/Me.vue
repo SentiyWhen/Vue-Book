@@ -5,7 +5,7 @@
       <p>{{userinfo.nickName}}</p>
     </div>
     <YearProgress></YearProgress>
-    <button v-if='!userinfo.openId' @click='scanBook' class='btn'>添加图书</button>
+    <button v-if='userinfo.openId' @click='scanBook' class='btn'>添加图书</button>
     <button v-else open-type="getUserInfo" lang="zh_CN" class='btn' @getuserinfo="login">点击登录</button>
   </div>
 </template>
@@ -27,12 +27,21 @@ export default {
     }
   },
   methods: {
+    async addBook(isbn){
+      console.log(isbn)
+      const res = await post('/weapp/addbook',{
+        isbn,
+        openid:this.userinfo.openId
+      })
+      showModal('添加成功',`${res.title}添加成功`)
+
+    },
 
     scanBook () {
       wx.scanCode({
         success: (res) => {
           if(res.result){
-            console.log(res.result)
+            this.addBook(res.result)
           }
         }
       })
