@@ -1,16 +1,92 @@
 <template>
-    <div>me</div>
+  <div class="container">
+    <div class="userinfo">
+      <img :src="userinfo.avatarUrl" alt="">
+      <p>{{userinfo.nickName}}</p>
+    </div>
+    <YearProgress></YearProgress>
+    <button v-if='!userinfo.openId' @click='scanBook' class='btn'>添加图书</button>
+    <button v-else open-type="getUserInfo" lang="zh_CN" class='btn' @getuserinfo="login">点击登录</button>
+  </div>
 </template>
-
-
 <script>
+import qcloud from 'wafer2-client-sdk'
+import YearProgress from '@/components/YearProgress'
+import {showSuccess, post} from '@/util'
+import config from '@/config'
 export default {
-  created () {
-    //    console.log('小程序启动了！')
+  components: {
+    YearProgress
+  },
+  data () {
+    return {
+      userinfo: {
+        avatarUrl: '../../../static/img/unlogin.png',
+        nickName: ''
+      }
+    }
+  },
+  methods: {
+
+    scanBook () {
+      wx.scanCode({
+        success: (res) => {
+          if(res.result){
+            console.log(res.result)
+          }
+        }
+      })
+    },
+    login () {
+      let user = wx.getStorageSync('userinfo')
+      const self = this
+      if (!user) {
+        qcloud.setLoginUrl(config.loginUrl)
+        qcloud.login({
+          success: function (userinfo) {
+            qcloud.request({
+              url: config.userUrl,
+              login: true,
+              success (userRes) {
+                console.log(userRes.data)  
+                showSuccess('登录成功')
+                wx.setStorageSync('userinfo', userRes.data.data)
+                self.userinfo = userRes.data.data
+              }
+            })
+          }
+
+        })
+      }
+    }
+  },
+  onShow () {
+    // console.log(123)
+    let userinfo = wx.getStorageSync('userinfo')
+    // console.log([userinfo])
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
+    // console.log(this.userinfo)
   }
 }
 </script>
 
-<style>
+<style lang='scss'>
+.container{
+  padding:0 30rpx;
+
+}  
+.userinfo{
+  margin-top:100rpx;
+  text-align:center;
+  img{
+    width: 150rpx;
+    height:150rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+  }
+}
+
 
 </style>

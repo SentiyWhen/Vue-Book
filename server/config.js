@@ -32,7 +32,7 @@ const CONF = {
         port: 3306,
         user: 'root',
         db: 'cAuth',
-        pass: 'wx3b0dedc6b9572cc3',
+        pass: '123456',
         char: 'utf8mb4'
     },
 
