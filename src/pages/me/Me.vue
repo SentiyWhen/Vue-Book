@@ -12,7 +12,7 @@
 <script>
 import qcloud from 'wafer2-client-sdk'
 import YearProgress from '@/components/YearProgress'
-import {showSuccess, post} from '@/util'
+import {showSuccess, post, showModal} from '@/util'
 import config from '@/config'
 export default {
   components: {

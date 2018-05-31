@@ -19,7 +19,10 @@ function request(url,method,data,header={}){
       success: function (res) {
         if (res.data.code === 0) {
           resolve(res.data.data)
+          console.log(res.data.data)
+          
         } else {
+          console.log(res.data.data.msg)
           showModal('失败',res.data.data.msg)
           reject(res.data)
         }
