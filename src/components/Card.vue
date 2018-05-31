@@ -5,8 +5,8 @@
     </div>
     <div class="detail">
       <div class="row">
-        <div class="right">
-          {{book.rate}}
+        <div class="right text-primary">
+          {{book.rate}} <Rate :value='book.rate'></Rate>
         </div>
         <div class="left">
           {{book.title}}
@@ -34,11 +34,16 @@
 </template>
 
 <script>
+import Rate from '@/components/Rate'
+
 export default {
   // async created () {
   //   console.log('11小程序启动了！')
  
   // },
+  components:{
+    Rate
+  },
   props:['book']
 }
 </script>
