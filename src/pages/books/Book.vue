@@ -1,13 +1,29 @@
 <template>
-    <div>book</div>
+    <div>
+      <div :key='book.id' v-for="book in books">{{book.title}}</div>
+    </div>
 </template>
 
 
 <script>
+import {get} from '@/util'
+
 export default {
-  created () {
-    //    console.log('小程序启动了！')
+  data(){
+    return {
+      books:[]
+    }
+  },
+  methods:{
+    async getList(){
+      const books = await get('/weapp/booklist')
+      this.books = books.list
+    }
+  },
+  mounted(){
+    this.getList()
   }
+
 }
 </script>
 
