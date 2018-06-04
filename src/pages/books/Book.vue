@@ -44,7 +44,6 @@ export default {
       wx.showNavigationBarLoading()
       const books = await get('/weapp/booklist',{page:this.page})
       if(books.list.length<10 && this.page>0){
-        
         this.more = false
         console.log(this.more)
       }

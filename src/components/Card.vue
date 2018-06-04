@@ -1,4 +1,6 @@
 <template>
+  <a :href="detailUrl">
+
   <div class="book-card">
     <div class="thumb">
       <img :src="book.image" class="img" mode="aspectFit">
@@ -30,6 +32,8 @@
       </div>
     </div>
   </div>
+
+  </a>
   
 </template>
 
@@ -44,7 +48,12 @@ export default {
   components:{
     Rate
   },
-  props:['book']
+  props:['book'],
+  computed:{
+    detailUrl(){
+      return '/pages/detail/main?id='+this.book.id
+    }
+  }
 }
 </script>
 

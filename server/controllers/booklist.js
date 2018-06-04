@@ -11,6 +11,8 @@ module.exports = async (ctx)=>{
                   .offset(Number(page) * size)
                   .orderBy('books.id','desc')
     // .orderBy('id','desc')
+
+    console.log('books:',books)
   ctx.state.data = {
     list:books.map(v=>{
       const info = JSON.parse(v.user_info)
