@@ -21,11 +21,11 @@
 
 import {get} from '@/util'
 import Card from '@/components/Card'
-// // import TopSwiper from '@/components/TopSwiper'
+import TopSwiper from '@/components/TopSwiper'
 export default {
   components:{
     Card,
-    // TopSwiper
+    TopSwiper
   },
   data(){
     return {
@@ -44,6 +44,7 @@ export default {
       wx.showNavigationBarLoading()
       const books = await get('/weapp/booklist',{page:this.page})
       if(books.list.length<10 && this.page>0){
+        
         this.more = false
         console.log(this.more)
       }
@@ -80,7 +81,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang='scss'>
 
 
 </style>
