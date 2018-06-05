@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import {get, post, showModel} from '@/util'
+import {get, post, showModal} from '@/util'
 import BookInfo from '@/components/BookInfo'
 
 export default {
@@ -61,7 +61,7 @@ export default {
         this.comment = ''
         // this.getComments()
       } catch (e) {
-        showModel('失败', e.msg)
+        showModal('失败', e.msg)
       }
 
     },
