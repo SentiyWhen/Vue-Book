@@ -4,10 +4,18 @@ module.exports = async (ctx)=>{
     const {id} = ctx.request.query
 
     const detail = await mysql('books')
-                            .select()
-                            .where('id', id)
-                            .first()
-    ctx.state.data = detail   
+                        .select('books.*', 'cSessionInfo.user_info')
+                        .join('cSessionInfo', 'books.openid', 'cSessionInfo.open_id')
+                        .where('id', id)
+                        .first()
+    const info = JSON.parse(detail.user_info)
+    ctx.state.data = Object.assign({},detail,{
+        user_info:{
+            name: info.nickName,
+            image: info.avatarUrl
+        }
+    })
+  
 
 
     await mysql('books')

@@ -7,22 +7,44 @@
       <img class="img"  
             :src="info.image" 
             mode='aspectFit'>
-    <div class="info">
-        <div class="title">
-            {{info.title}}
-        </div>
-        <div class="author">
-            {{info.author}}
-        </div>
+      <div class="info">
+          <div class="title">
+              {{info.title}}
+          </div>
+          <div class="author">
+              {{info.author}}
+          </div>
+      </div>
     </div>
+    <div class="detail">
+      <img :src="userinfo.image" class='avatar' mode='aspectFit'>
+      {{userinfo.name}}
+      <div class="right text-primary">
+        {{info.rate}}分
+        <Rate :value='info.rate'></Rate>
+      </div>
     </div>
+    <div class="detail">
+      {{info.publisher}}
+      <div class="right">
+        {{info.price}}
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 import Rate from '@/components/Rate'
 export default {
+  components: {
+    Rate
+  },
   props: ['info'],
+  computed: {
+    userinfo () {
+      return this.info.user_info || {}
+    }
+  }
 }
 </script>
 
