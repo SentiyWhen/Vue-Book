@@ -1,6 +1,7 @@
 <template>
   <div>
     <BookInfo :info='info'></BookInfo>
+    <CommentList :comments="comments"></CommentList>
 
     <div class="comment">
       <textarea v-model="comment"
@@ -26,6 +27,7 @@
 <script>
 import {get, post, showModal} from '@/util'
 import BookInfo from '@/components/BookInfo'
+import CommentList from '@/components/CommentList'
 
 export default {
   data(){
@@ -40,7 +42,8 @@ export default {
     }
   },
   components: {
-    BookInfo
+    BookInfo,
+    CommentList
   },
   methods:{
     async addComment(){
@@ -59,11 +62,16 @@ export default {
       try {
         await post('/weapp/addcomment', data)
         this.comment = ''
-        // this.getComments()
+        this.getComments()
       } catch (e) {
         showModal('失败', e.msg)
       }
 
+    },
+    async getComments () {
+      const comments = await get('/weapp/commentlist', {bookid: this.bookid})
+      console.log('comments', comments)
+      this.comments = comments.list || []
     },
     async getDetail(){
       const info = await get('/weapp/bookdetail',{id:this.bookid})
@@ -73,7 +81,6 @@ export default {
       })   
     },
     getGeo(e){
-      // hLUlVzMWPZEkeQyy6xZkNeAwY4D814dR
       const ak = 'hLUlVzMWPZEkeQyy6xZkNeAwY4D814dR'
       let url = 'http://api.map.baidu.com/geocoder/v2/'
 
@@ -123,7 +130,8 @@ export default {
   mounted(){
     this.bookid = this.$root.$mp.query.id
     this.getDetail()
-
+    this.getComments()
+    
     const userinfo = wx.getStorageSync('userinfo')
     console.log('userinfo', userinfo)
     if (userinfo) {
