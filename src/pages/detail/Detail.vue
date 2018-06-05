@@ -17,11 +17,14 @@
         <switch color='#EA5A49' :checked='phone' @change='getPhone'></switch>
         <span class='text-primary'>{{phone}}</span>
       </div>
+      <button class="btn" @click='addComment'>
+        评论
+      </button>
     </div>
   </div>
 </template>
 <script>
-import {get} from '@/util'
+import {get, post, showModel} from '@/util'
 import BookInfo from '@/components/BookInfo'
 
 export default {
@@ -40,6 +43,28 @@ export default {
     BookInfo
   },
   methods:{
+    async addComment(){
+      if (!this.comment) {
+        return
+      }
+      // 评论内容 手机型号  地理位置 图书id 用户的openid
+      const data = {
+        openid: this.userinfo.openId,
+        bookid: this.bookid,
+        comment: this.comment,
+        phone: this.phone,
+        location: this.location
+      }
+      console.log('addComment:',data)
+      try {
+        await post('/weapp/addcomment', data)
+        this.comment = ''
+        // this.getComments()
+      } catch (e) {
+        showModel('失败', e.msg)
+      }
+
+    },
     async getDetail(){
       const info = await get('/weapp/bookdetail',{id:this.bookid})
       this.info = info
@@ -78,6 +103,7 @@ export default {
         })
         
       } else {
+        this.location = ''
         
       }
 
@@ -97,6 +123,12 @@ export default {
   mounted(){
     this.bookid = this.$root.$mp.query.id
     this.getDetail()
+
+    const userinfo = wx.getStorageSync('userinfo')
+    console.log('userinfo', userinfo)
+    if (userinfo) {
+      this.userinfo = userinfo
+    }
   }
 }
 </script>
