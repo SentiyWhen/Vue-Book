@@ -27,19 +27,19 @@
 
 <script>
 export default {
-  props:['tops'],
-  computed:{
-    imgUrls(){
+  props: ['tops'],
+  computed: {
+    imgUrls () {
       // 如果通用 请用chunk函数  比如lodash的chunk方法
       let res = this.tops
-      console.log([res.slice(0,3),res.slice(3,6),res.slice(6)])
-      return [res.slice(0,3),res.slice(3,6),res.slice(6)]
+      console.log([res.slice(0, 3), res.slice(3, 6), res.slice(6)])
+      return [res.slice(0, 3), res.slice(3, 6), res.slice(6)]
     }
   },
-  methods:{
-    bookDetail(item){
+  methods: {
+    bookDetail (item) {
       wx.navigateTo({
-        url:'/pages/detail/main?id='+item.id
+        url: '/pages/detail/main?id=' + item.id
       })
     }
   }

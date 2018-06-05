@@ -1,13 +1,8 @@
-
-
 <script>
-import qcloud from 'wafer2-client-sdk'
-import config from './config'
 
 export default {
- async created () {
+  async created () {
     // console.log('小程序启动了！')
- 
   }
 }
 </script>

@@ -34,7 +34,7 @@ import BookInfo from '@/components/BookInfo'
 import CommentList from '@/components/CommentList'
 
 export default {
-  data(){
+  data () {
     return {
       comments: [],
       userinfo: {},
@@ -62,8 +62,8 @@ export default {
     BookInfo,
     CommentList
   },
-  methods:{
-    async addComment(){
+  methods: {
+    async addComment () {
       if (!this.comment) {
         return
       }
@@ -75,7 +75,7 @@ export default {
         phone: this.phone,
         location: this.location
       }
-      console.log('addComment:',data)
+      console.log('addComment:', data)
       try {
         await post('/weapp/addcomment', data)
         this.comment = ''
@@ -83,28 +83,27 @@ export default {
       } catch (e) {
         showModal('失败', e.msg)
       }
-
     },
     async getComments () {
       const comments = await get('/weapp/commentlist', {bookid: this.bookid})
       console.log('comments', comments)
       this.comments = comments.list || []
     },
-    async getDetail(){
-      const info = await get('/weapp/bookdetail',{id:this.bookid})
+    async getDetail () {
+      const info = await get('/weapp/bookdetail', {id: this.bookid})
       this.info = info
       wx.setNavigationBarTitle({
         title: info.title
-      })   
+      })
     },
-    getGeo(e){
+    getGeo (e) {
       const ak = 'hLUlVzMWPZEkeQyy6xZkNeAwY4D814dR'
       let url = 'http://api.map.baidu.com/geocoder/v2/'
 
       if (e.target.value) {
         wx.getLocation({
           type: 'wgs84',
-          success: geo=> {
+          success: geo => {
             wx.request({
               url,
               data: {
@@ -112,7 +111,7 @@ export default {
                 location: `${geo.latitude},${geo.longitude}`,
                 output: 'json'
               },
-              success: res=>{
+              success: res => {
                 console.log(res)
                 if (res.data.status === 0) {
                   this.location = res.data.result.addressComponent.city
@@ -125,14 +124,11 @@ export default {
           }
 
         })
-        
       } else {
         this.location = ''
-        
       }
-
     },
-    getPhone(e){
+    getPhone (e) {
       if (e.target.value) {
         const phoneInfo = wx.getSystemInfoSync()
         // console.log(phoneInfo)
@@ -141,14 +137,13 @@ export default {
         // 没选中
         this.phone = ''
       }
-
     }
   },
-  mounted(){
+  mounted () {
     this.bookid = this.$root.$mp.query.id
     this.getDetail()
     this.getComments()
-    
+
     const userinfo = wx.getStorageSync('userinfo')
     console.log('userinfo', userinfo)
     if (userinfo) {

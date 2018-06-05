@@ -7,7 +7,7 @@
 <script>
 export default {
   methods: {
-      //闰年判断
+    // 闰年判断
     isLeapYear () {
       const year = new Date().getFullYear()
       if (year % 400 === 0) {

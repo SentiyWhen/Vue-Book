@@ -27,20 +27,19 @@ export default {
     }
   },
   methods: {
-    async addBook(isbn){
+    async addBook (isbn) {
       console.log(isbn)
-      const res = await post('/weapp/addbook',{
+      const res = await post('/weapp/addbook', {
         isbn,
-        openid:this.userinfo.openId
+        openid: this.userinfo.openId
       })
-      showModal('添加成功',`${res.title}添加成功`)
-
+      showModal('添加成功', `${res.title}添加成功`)
     },
 
     scanBook () {
       wx.scanCode({
         success: (res) => {
-          if(res.result){
+          if (res.result) {
             this.addBook(res.result)
           }
         }
@@ -57,7 +56,7 @@ export default {
               url: config.userUrl,
               login: true,
               success (userRes) {
-                console.log(userRes.data)  
+                console.log(userRes.data)
                 showSuccess('登录成功')
                 wx.setStorageSync('userinfo', userRes.data.data)
                 self.userinfo = userRes.data.data
