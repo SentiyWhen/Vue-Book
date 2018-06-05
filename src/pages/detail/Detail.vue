@@ -10,7 +10,7 @@
       <div class='location'>
         地理位置：
         <switch color='#EA5A49' :checked='location' @change='getGeo'></switch>
-        <span class='text-primary'>location</span>
+        <span class='text-primary'>{{location}}</span>
       </div>
       <div class='phone'>
         手机型号：
@@ -48,6 +48,39 @@ export default {
       })   
     },
     getGeo(e){
+      // hLUlVzMWPZEkeQyy6xZkNeAwY4D814dR
+      const ak = 'hLUlVzMWPZEkeQyy6xZkNeAwY4D814dR'
+      let url = 'http://api.map.baidu.com/geocoder/v2/'
+
+      if (e.target.value) {
+        wx.getLocation({
+          type: 'wgs84',
+          success: geo=> {
+            wx.request({
+              url,
+              data: {
+                ak,
+                location: `${geo.latitude},${geo.longitude}`,
+                output: 'json'
+              },
+              success: res=>{
+                console.log(res)
+                if (res.data.status === 0) {
+                  this.location = res.data.result.addressComponent.city
+                } else {
+                  this.location = '未知地点'
+                  // console.log('出错了')
+                }
+              }
+            })
+          }
+
+        })
+        
+      } else {
+        
+      }
+
     },
     getPhone(e){
       if (e.target.value) {
